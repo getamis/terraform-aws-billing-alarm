@@ -42,20 +42,24 @@ variable "cloudwatch_alarm_config" {
   type        = object({
     comparison_operator = string
     evaluation_periods  = string
+    datapoints_to_alarm = string
     standard_deviations = string
     metric_name         = string
     namespace           = string
     period              = string
+    treat_missing_data  = string
     stat                = string
     currency            = string
   })
   default     = {
     comparison_operator = "GreaterThanUpperThreshold"
-    evaluation_periods  = "1"
+    evaluation_periods  = "3"
+    datapoints_to_alarm = "1"
     standard_deviations = "2"
     metric_name         = "EstimatedCharges"
     namespace           = "AWS/Billing"
     period              = "3600"
+    treat_missing_data  = "notBreaching"
     stat                = "Maximum"
     currency            = "USD"   
   }
