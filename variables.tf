@@ -39,7 +39,7 @@ variable "slack_username" {
 
 variable "cloudwatch_alarm_config" {
   description = "The cloudwatch alarm configuration"
-  type        = object({
+  type = object({
     comparison_operator = string
     evaluation_periods  = string
     datapoints_to_alarm = string
@@ -51,7 +51,7 @@ variable "cloudwatch_alarm_config" {
     stat                = string
     currency            = string
   })
-  default     = {
+  default = {
     comparison_operator = "GreaterThanUpperThreshold"
     evaluation_periods  = "3"
     datapoints_to_alarm = "1"
@@ -61,7 +61,7 @@ variable "cloudwatch_alarm_config" {
     period              = "3600"
     treat_missing_data  = "notBreaching"
     stat                = "Maximum"
-    currency            = "USD"   
+    currency            = "USD"
   }
 }
 

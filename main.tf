@@ -2,18 +2,18 @@ data "aws_caller_identity" "current" {}
 data "aws_iam_account_alias" "current" {}
 
 module "label" {
-  source      = "git::https://github.com/getamis/terraform-null-label.git?ref=v0.0.1"
+  source      = "git::https://github.com/getamis/terraform-null-label.git?ref=v1.0.0"
   environment = var.environment
   project     = var.project
   name        = var.name
   service     = var.service
-} 
+}
 
 module "notify_slack" {
   source  = "terraform-aws-modules/notify-slack/aws"
-  version = "3.3.0"
+  version = "~> 4.0"
 
-  sns_topic_name   = module.label.id
+  sns_topic_name = module.label.id
 
   slack_webhook_url = var.slack_webhook_url
   slack_channel     = var.slack_channel
@@ -22,10 +22,10 @@ module "notify_slack" {
   tags = merge(
     module.label.tags,
     var.extra_tags,
-    map(
-      "Name", module.label.id,
-      "Role", "notification",
-    )
+    tomap({
+      "Name" = module.label.id,
+      "Role" = "notification",
+    })
   )
 }
 
@@ -65,9 +65,9 @@ resource "aws_cloudwatch_metric_alarm" "account_billing_alarm_to_existing_sns" {
   tags = merge(
     module.label.tags,
     var.extra_tags,
-    map(
-      "Name", module.label.id,
-      "Role", "alarm",
-    )
+    tomap({
+      "Name" = module.label.id,
+      "Role" = "alarm",
+    })
   )
 }
